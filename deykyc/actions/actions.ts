@@ -2,6 +2,7 @@
 import { encrypt } from 'eth-sig-util';
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import QRCode from 'qrcode';
+import { Wallet, ethers } from 'ethers';
 
 const secretKeys = process.env.SECRET_KEY;
 const storage = new ThirdwebStorage({
@@ -18,22 +19,45 @@ async function datauritobuffer(datauri: string) {
 }
 
 export async function gettokenurl() {
+    const wallet =new ethers.Wallet(process.env.PRIVATE_KEY as string);
     const details = {
         name: "prakash",
         dob: "04/08/2003"
     }
     const encrypted = await encrypts(details);
+    const signature1=await wallet.signMessage(encrypted);
     const detailss = {
         name: "some",
-        content: encrypted
+        content: encrypted,
+        signature:signature1
     }
+    const detailsqr=await detailtoqr(detailss);
+    const nftmetadata={
+        name:"samplenft",
+        description:"this is a testing nft",
+        image:detailsqr
+    }
+    const nfturi=await uploadtoipfs(nftmetadata);
+    
+    return `https://ipfs.io/${nfturi.substring(7)}`;
+}
 
-    const encryptedconturl = await uploadtoipfs(detailss);
-    console.log(encryptedconturl);
+export async function temporary(){
+    const wallet=new Wallet(process.env.PRIVATE_KEY as string);
+    const message="https://ipfs.io/ipfs/QmP6KPPfi5bVTUKghcUJjRVnmfgsS1qnvULPdMHDAtyagL/0"
+    const messageBytes = ethers.utils.toUtf8Bytes(message);
+    const signature=await wallet.signMessage(messageBytes);
+    console.log(wallet.publicKey);
+    console.log(signature);
+}
+async function detailtoqr(details:object){
+    const encryptedconturl = await uploadtoipfs(details);
     const datauri = await QRCode.toDataURL(encryptedconturl);
     const buffer = await datauritobuffer(datauri);
     const buffertoipfs = await uploadtoipfs(buffer);
-    console.log(buffertoipfs);
+    
+    return buffertoipfs;
+
 }
 
 async function encrypts(data: object) {
