@@ -38,23 +38,16 @@ export async function gettokenurl() {
         image:detailsqr
     }
     const nfturi=await uploadtoipfs(nftmetadata);
-    
-    return `https://ipfs.io/${nfturi.substring(7)}`;
-}
-
-export async function temporary(){
-    const wallet=new Wallet(process.env.PRIVATE_KEY as string);
-    const message="0x7624778dedc75f8b322b9fa1632a610d40b85e106c7d9bf0e743a9ce291b9c6f";
-
-    const prefixedMessage = "\x19Ethereum Signed Message:\n" + message.length + message;
-    
-  const signature = await wallet.signMessage(ethers.utils.arrayify(ethers.utils.toUtf8Bytes(prefixedMessage)));
-  const recoveredAddress = ethers.utils.verifyMessage(prefixedMessage, signature);
-//   console.log(prefixedMessage);
-// console.log(wallet.publicKey);
+    const uri=`https://ipfs.io/${nfturi.substring(7)}`
+    const hash = await ethers.utils.solidityKeccak256(['string'], [uri]);
+    const signature = await wallet.signMessage(ethers.utils.arrayify(hash));
+    console.log(uri);
     console.log(signature);
-    // console.log(recoveredAddress)
+    
+    return [uri,signature];
 }
+
+
 async function detailtoqr(details:object){
     const encryptedconturl = await uploadtoipfs(details);
     const datauri = await QRCode.toDataURL(encryptedconturl);
