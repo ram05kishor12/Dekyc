@@ -28,9 +28,11 @@ export const LandingHero = () => {
             </p>
           </div>
           <div> 
+              <Link href="/info">
                 <Button variant="default" className=" md:text-lg p-4 md:p-6 rounded-full font-semibold">
                     Explore NOW 
                 </Button>
+              </Link>
                 
 
           </div>

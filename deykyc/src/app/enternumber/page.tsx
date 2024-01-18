@@ -46,6 +46,7 @@ const Page = () => {
   return (
     <>
           {isVerifying && <Loader />} 
+      <div className='w-screm min-h-screen bg-gradient-to-r from-rose-100 to-teal-100'>
       <div className='flex md:flex-row justify-center items-center flex-col'>
         <div className='m-24'>
           <Image className='rounded-md' src={kyc} width={1200} height={1200} alt="Picture of the author" />
@@ -115,6 +116,7 @@ const Page = () => {
             </div>
           )}
         </div>
+      </div>
       </div>
     </>
   );

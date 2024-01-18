@@ -33,7 +33,7 @@ export default function Navbart() {
         </NavbarBrand>
         <div className="hidden sm:flex flex-grow justify-center items-center gap-4">
           <NavbarItem>
-            <Link href="#" className={cn("text-1.5xl px-9 font-bold text-blank", font.className)}>
+            <Link href="/" className={cn("text-1.5xl px-9 font-bold text-blank", font.className)}>
               Home
             </Link>
           </NavbarItem>
@@ -50,9 +50,11 @@ export default function Navbart() {
         </div>
         <div className="flex justify-end items-center">
           <NavbarItem>
+           <Link href="/info">
             <Button>
               Get Started
             </Button>
+           </Link>
           </NavbarItem>
         </div>
        
