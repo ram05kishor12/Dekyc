@@ -5,6 +5,7 @@ import { gettokenurl } from '../../../actions/actions';
 import Image from 'next/image';
 import Loader from '../components/loader';
 import { useRouter } from 'next/navigation';
+import Navbart from '../../components/navbar'
 
 
 const Page = () => {
@@ -45,6 +46,7 @@ const Page = () => {
 
   return (
     <>
+      <Navbart/>
           {isVerifying && <Loader />} 
       <div className='w-screm min-h-screen bg-gradient-to-r from-rose-100 to-teal-100'>
       <div className='flex md:flex-row justify-center items-center flex-col'>

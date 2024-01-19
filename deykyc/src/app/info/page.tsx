@@ -39,7 +39,7 @@ const Cautions = () => {
           <Checkbox
             id="terms"
             checked={isAgreed}
-            onChange={() => setIsAgreed(!isAgreed)}
+            onClick={() => setIsAgreed(!isAgreed)}
           />
           <label
             htmlFor="terms"
